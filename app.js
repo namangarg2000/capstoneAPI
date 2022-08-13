@@ -46,7 +46,7 @@ app.get("/", (req,res)=>{ // GET on "/" to obtain all records
   })
 })
 
-app.get("/:email",function(req,res){  //GET on "/:email" to get records of a specific user
+app.get("/email/:email",function(req,res){  //GET on "/:email" to get records of a specific user
   const requestedUser = req.params.email;
 
   User.findOne({email: requestedUser}, function(err, foundUser){
@@ -58,7 +58,7 @@ app.get("/:email",function(req,res){  //GET on "/:email" to get records of a spe
   });
 });
 
-app.post("/:email", function(req,res){  // POST on "/email" to create a new user.
+app.post("/email/:email", function(req,res){  // POST on "/email" to create a new user.
 
   // User.findOne({email: req.params.email},function(err, foundUser){
   //   if(foundUser){
@@ -89,7 +89,7 @@ app.post("/:email", function(req,res){  // POST on "/email" to create a new user
 
 });
 
-app.patch("/:email", function(req,res){
+app.patch("/email/:email", function(req,res){
   const requestedUser = req.params.email;
   User.updateOne(
     {email: requestedUser},
@@ -101,7 +101,7 @@ app.patch("/:email", function(req,res){
   )
 });
 
-app.delete("/:email", function(req,res){
+app.delete("/email/:email", function(req,res){
   User.deleteOne(
     {email: req.params.email},
     function(err){
@@ -110,6 +110,16 @@ app.delete("/:email", function(req,res){
       }
     }
   )
+});
+
+app.get("/roll/:rollnumber", function(req,res){
+  User.findOne({rollnumber: req.params.rollnumber}, function(err, foundUser){
+      if(!err){
+        res.send(foundUser);
+      } else {
+        res.send(err);
+      }
+  });
 });
 
 
