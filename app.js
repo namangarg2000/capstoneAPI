@@ -13,15 +13,23 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost:27017/capstonePortal", {useNewUrlParser: true});
+const remoteDB = "mongodb+srv://admin-naman:Naman%40456@cluster0.0nvvwvh.mongodb.net/?retryWrites=true&w=majority/test"
+const localDB = "mongodb://localhost:27017/capstonePortal";
+mongoose.connect(remoteDB, {useNewUrlParser: true});
+
 
 const userSchema = new mongoose.Schema({
   email: String,
   password: String,
   rollnumber: String,
   laststatus: String,
-  entry: [String],
-  exit: [String]
+  entry: [],
+  exit: []
+}, {
+  writeConcern: {
+          j: true,
+          wtimeout: 1000
+        }
 });
 
 //Level 2 encrypting the database-add before model
@@ -50,32 +58,33 @@ app.get("/:email",function(req,res){  //GET on "/:email" to get records of a spe
   });
 });
 
-app.post("/:email", (req,res)=>{  // POST on "/" to create a new user.
+app.post("/:email", function(req,res){  // POST on "/email" to create a new user.
 
-  User.findOne({email: req.params.email},function(err, foundUser){
-    if(foundUser){
-      res.send("User already exists");
+  // User.findOne({email: req.params.email},function(err, foundUser){
+  //   if(foundUser){
+  //     res.send("User already exists");
+  //   }
+  //   else{
+  //
+  //   }
+  // })
+
+  const newUser = new User({
+    email: req.params.email,
+    password: req.body.password,
+    rollnumber: req.body.rollnumber,
+    laststatus: "Exit",
+    entry:[{String}],
+    exit:[{String}]
+  });
+
+  newUser.save(function(err){
+    if(!err){
+      res.send("Successfully added new user!")
+    } else {
+      res.send(err);
     }
-    else{
-      const newUser = new User({
-        email: req.params.email,
-        password: req.body.password,
-        rollnumber: req.body.rollnumber,
-        laststatus: "Exit",
-        entry:[],
-        exit:[]
-      });
-
-      newUser.save(function(err){
-        if(err){
-          console.log(err);
-        } else {
-          res.send("Successfully added new user!")
-        }
-      })
-    }
-  })
-
+  });
 
 
 });
