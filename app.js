@@ -23,8 +23,8 @@ const userSchema = new mongoose.Schema({
   password: String,
   rollnumber: String,
   laststatus: String,
-  entry: [],
-  exit: []
+  entry: String,
+  exit: String
 }, {
   writeConcern: {
           j: true,
@@ -74,8 +74,8 @@ app.post("/:email", function(req,res){  // POST on "/email" to create a new user
     password: req.body.password,
     rollnumber: req.body.rollnumber,
     laststatus: "Exit",
-    entry:[{String}],
-    exit:[{String}]
+    entry: "",
+    exit: ""
   });
 
   newUser.save(function(err){
