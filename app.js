@@ -122,6 +122,60 @@ app.get("/roll/:rollnumber", function(req,res){
   });
 });
 
+app.post("/roll/:rollnumber", function(req,res){  // POST on "/roll" to create a new user.
+
+  // User.findOne({email: req.params.email},function(err, foundUser){
+  //   if(foundUser){
+  //     res.send("User already exists");
+  //   }
+  //   else{
+  //
+  //   }
+  // })
+
+  const newUser = new User({
+    email: req.body.email,
+    password: req.body.password,
+    rollnumber: req.params.rollnumber,
+    laststatus: "Exit",
+    entry: "",
+    exit: ""
+  });
+
+  newUser.save(function(err){
+    if(!err){
+      res.send("Successfully added new user!")
+    } else {
+      res.send(err);
+    }
+  });
+
+
+});
+
+app.patch("/roll/:rollnumber", function(req,res){
+  const requestedUser = req.params.rollnumber;
+  User.updateOne(
+    {rollnumber: requestedUser},
+    {$set: req.body},
+    function(err){
+      if(err) console.log(err)
+      else res.send("Successfully Updated");
+    }
+  )
+});
+
+app.delete("/roll/:rollnumber", function(req,res){
+  User.deleteOne(
+    {rollnumber: req.params.rollnumber},
+    function(err){
+      if(!err){
+        res.send("Record Deleted Successfully!")
+      }
+    }
+  )
+});
+
 
 let port = process.env.PORT;
 if (port == null || port == "") {
