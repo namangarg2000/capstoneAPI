@@ -60,14 +60,14 @@ app.get("/email/:email",function(req,res){  //GET on "/:email" to get records of
 
 app.post("/email/:email", function(req,res){  // POST on "/email" to create a new user.
 
-  // User.findOne({email: req.params.email},function(err, foundUser){
-  //   if(foundUser){
-  //     res.send("User already exists");
-  //   }
-  //   else{
-  //
-  //   }
-  // })
+  User.findOne({email: req.params.email},function(err, foundUser){
+    if(foundUser){
+      res.send("User already exists");
+    }
+    else{
+  
+    }
+  })
 
   const newUser = new User({
     email: req.params.email,
@@ -124,14 +124,6 @@ app.get("/roll/:rollnumber", function(req,res){
 
 app.post("/roll/:rollnumber", function(req,res){  // POST on "/roll" to create a new user.
 
-  // User.findOne({email: req.params.email},function(err, foundUser){
-  //   if(foundUser){
-  //     res.send("User already exists");
-  //   }
-  //   else{
-  //
-  //   }
-  // })
 
   const newUser = new User({
     email: req.body.email,
