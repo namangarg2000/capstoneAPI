@@ -73,7 +73,7 @@ app.post("/email/:email", function(req,res){  // POST on "/email" to create a ne
     email: req.params.email,
     password: req.body.password,
     rollnumber: req.body.rollnumber,
-    laststatus: "Exit",
+    laststatus: "First",
     entry: "",
     exit: ""
   });
@@ -129,7 +129,7 @@ app.post("/roll/:rollnumber", function(req,res){  // POST on "/roll" to create a
     email: req.body.email,
     password: req.body.password,
     rollnumber: req.params.rollnumber,
-    laststatus: "Exit",
+    laststatus: "First",
     entry: "",
     exit: ""
   });
